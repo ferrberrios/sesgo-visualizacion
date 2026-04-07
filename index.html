@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TÍTULO DE SU ARTÍCULO</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink:        #1a1714;
+      --ink-light:  #4a443e;
+      --ink-faint:  #9a928a;
+      --paper:      #f5f2ec;
+      --rule:       #d8d0c5;
+      --accent:     #8b1c1c;
+      --accent-dim: #b94444;
+      --mono:       'DM Mono', monospace;
+      --serif:      'EB Garamond', Georgia, serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      font-size: 18px;
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    /* ── HEADER / MASTHEAD ───────────────────────────────────── */
+    .masthead {
+      border-bottom: 1px solid var(--rule);
+      padding: 1.4rem 0;
+      position: sticky;
+      top: 0;
+      background: var(--paper);
+      z-index: 100;
+      backdrop-filter: blur(4px);
+    }
+    .masthead-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .journal-name {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+    }
+    .journal-meta {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      color: var(--ink-faint);
+      letter-spacing: 0.06em;
+      text-align: right;
+    }
+
+    /* ── LAYOUT ──────────────────────────────────────────────── */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    section { padding: 2.8rem 0; }
+    section + section { border-top: 1px solid var(--rule); }
+
+    /* ── ARTICLE HEADER ──────────────────────────────────────── */
+    .article-header { padding-top: 4rem; padding-bottom: 3rem; }
+
+    .article-type {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .article-type::before {
+      content: '';
+      display: inline-block;
+      width: 2rem;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    h1 {
+      font-size: clamp(1.9rem, 4vw, 2.8rem);
+      font-weight: 500;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.4rem;
+      color: var(--ink);
+    }
+
+    .subtitle {
+      font-size: 1.15rem;
+      font-style: italic;
+      color: var(--ink-light);
+      margin-bottom: 2.5rem;
+      max-width: 660px;
+    }
+
+    /* ── AUTHORS ─────────────────────────────────────────────── */
+    .authors-block { margin-bottom: 2rem; }
+
+    .authors-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 0.6rem;
+    }
+
+    .authors-list {
+      list-style: none;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 1.8rem;
+    }
+    .authors-list li {
+      font-size: 1rem;
+      color: var(--ink);
+    }
+    .authors-list li a {
+      color: inherit;
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .authors-list li a:hover { color: var(--accent); border-color: var(--accent-dim); }
+    .author-sup {
+      font-size: 0.65em;
+      vertical-align: super;
+      font-family: var(--mono);
+      color: var(--accent);
+      margin-left: 1px;
+    }
+
+    /* affiliations */
+    .affiliations {
+      margin-top: 1rem;
+      font-size: 0.82rem;
+      color: var(--ink-light);
+      line-height: 1.6;
+    }
+    .affiliations p { margin-bottom: 0.2rem; }
+    .aff-num {
+      font-family: var(--mono);
+      color: var(--accent);
+      margin-right: 0.4rem;
+      font-size: 0.72em;
+    }
+
+    /* ── META BADGES ─────────────────────────────────────────── */
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1.4rem;
+      padding: 1.2rem 0;
+      border-top: 1px solid var(--rule);
+      border-bottom: 1px solid var(--rule);
+      margin-top: 1.8rem;
+    }
+    .meta-item {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    .meta-item span {
+      color: var(--ink-light);
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 0.78rem;
+    }
+
+    /* ── SECTION HEADINGS ────────────────────────────────────── */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--rule);
+    }
+
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 500;
+      margin-bottom: 1rem;
+      color: var(--ink);
+    }
+
+    /* ── ABSTRACT ────────────────────────────────────────────── */
+    .abstract-box {
+      background: rgba(139, 28, 28, 0.04);
+      border-left: 2px solid var(--accent);
+      padding: 1.6rem 2rem;
+      margin-top: 0.4rem;
+    }
+    .abstract-box p {
+      font-size: 1rem;
+      color: var(--ink-light);
+      text-align: justify;
+      hyphens: auto;
+    }
+
+    /* ── KEYWORDS ────────────────────────────────────────────── */
+    .keywords {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.8rem;
+    }
+    .keyword {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      padding: 0.25rem 0.7rem;
+      border: 1px solid var(--rule);
+      color: var(--ink-light);
+      background: transparent;
+      transition: border-color 0.2s, color 0.2s;
+      cursor: default;
+    }
+    .keyword:hover { border-color: var(--accent-dim); color: var(--accent); }
+
+    /* ── BODY TEXT ───────────────────────────────────────────── */
+    .body-text p {
+      text-align: justify;
+      hyphens: auto;
+      margin-bottom: 1.1rem;
+      color: var(--ink);
+    }
+    .body-text p:last-child { margin-bottom: 0; }
+
+    /* ── FIGURES ─────────────────────────────────────────────── */
+    figure {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    .fig-placeholder {
+      width: 100%;
+      height: 220px;
+      background: repeating-linear-gradient(
+        45deg,
+        var(--rule) 0px,
+        var(--rule) 1px,
+        transparent 1px,
+        transparent 10px
+      );
+      border: 1px solid var(--rule);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--ink-faint);
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+    figcaption {
+      font-size: 0.82rem;
+      color: var(--ink-faint);
+      margin-top: 0.6rem;
+      font-style: italic;
+      text-align: left;
+    }
+    figcaption strong {
+      font-style: normal;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: var(--ink-light);
+    }
+
+    /* ── TABLE ───────────────────────────────────────────────── */
+    .table-wrapper { overflow-x: auto; margin: 1.5rem 0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+    thead tr {
+      border-bottom: 2px solid var(--ink);
+    }
+    thead th {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-light);
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+    }
+    tbody tr { border-bottom: 1px solid var(--rule); }
+    tbody td { padding: 0.6rem 0.8rem; color: var(--ink); }
+    .table-caption {
+      font-size: 0.82rem;
+      color: var(--ink-faint);
+      font-style: italic;
+      margin-top: 0.5rem;
+    }
+
+    /* ── REFERENCES ──────────────────────────────────────────── */
+    .references-list {
+      list-style: none;
+      counter-reset: none;
+    }
+    .references-list li {
+      display: block;
+      padding-left: 2.2rem;
+      text-indent: -2.2rem;
+      margin-bottom: 0.9rem;
+      font-size: 0.88rem;
+      color: var(--ink-light);
+      line-height: 1.55;
+      white-space: normal;
+    }
+    .references-list li a {
+      color: var(--accent-dim);
+      text-decoration: none;
+    }
+    .references-list li a:hover { text-decoration: underline; }
+
+    /* ── CORRESPONDENCE ──────────────────────────────────────── */
+    .correspondence {
+      background: transparent;
+      border: 1px solid var(--rule);
+      padding: 1.2rem 1.6rem;
+      font-size: 0.85rem;
+      color: var(--ink-light);
+      margin-top: 1.4rem;
+    }
+    .correspondence strong {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    /* ── CONFLICT / FUNDING ──────────────────────────────────── */
+    .disclosure p {
+      font-size: 0.85rem;
+      color: var(--ink-faint);
+      margin-bottom: 0.5rem;
+    }
+    .disclosure p strong {
+      color: var(--ink-light);
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    /* ── FOOTER ──────────────────────────────────────────────── */
+    footer {
+      border-top: 1px solid var(--rule);
+      padding: 2rem 0 3rem;
+      text-align: center;
+      font-family: var(--mono);
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
+    footer a { color: inherit; text-decoration: none; }
+
+    /* ── ANIMATIONS ──────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .article-header > * {
+      opacity: 0;
+      animation: fadeUp 0.6s ease forwards;
+    }
+    .article-header > *:nth-child(1) { animation-delay: 0.05s; }
+    .article-header > *:nth-child(2) { animation-delay: 0.15s; }
+    .article-header > *:nth-child(3) { animation-delay: 0.25s; }
+    .article-header > *:nth-child(4) { animation-delay: 0.35s; }
+    .article-header > *:nth-child(5) { animation-delay: 0.45s; }
+
+    /* ── RESPONSIVE ──────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      body { font-size: 16px; }
+      .container { padding: 0 1.2rem; }
+      .abstract-box { padding: 1.2rem 1.2rem; }
+      h1 { font-size: 1.7rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- MASTHEAD -->
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="journal-name">Revista de Diseño y Visualización de Información</div>
+    <div class="journal-meta">Vol. 0 · Núm. 0 · 2026</div>
+  </div>
+</header>
+
+<!-- MAIN -->
+<main class="container">
+
+  <!-- ── ENCABEZADO DEL ARTÍCULO ─────────────────────────────── -->
+  <section class="article-header">
+
+    <div class="article-type">Artículo de Investigación Original</div>
+
+    <h1>Sesgos de Visualización: El diseño de información como herramienta de información errónea involuntaria</h1>
+
+    <p class="subtitle">Un análisis sobre cómo el minimalismo y las convenciones gráficas modernas actúan como mediadores de sesgos cognitivos y falsas certezas.</p>
+
+    <!-- AUTHORS -->
+    <div class="authors-block">
+      <p class="authors-label">Autoría</p>
+      <ul class="authors-list">
+        <li><a href="#">Esperanza Alvarado</a><span class="author-sup">1</span></li>
+        <li><a href="#">Fernanda Berríos</a><span class="author-sup">2</span></li>
+        <li><a href="#">Luis Plaza</a><span class="author-sup">3</span></li>
+        <li><a href="#">Rayen Ramos</a><span class="author-sup">4</span></li>
+      </ul>
+
+      <div class="affiliations">
+        <p><span class="aff-num">1</span>Estudiante de Diseño en Visualidad y Medios, Universidad de Chile, Santiago, Chile</p>
+        <p><span class="aff-num">2</span>Estudiante de Diseño en Visualidad y Medios, Universidad de Chile, Santiago, Chile</p>
+        <p><span class="aff-num">3</span>Estudiante de Diseño en Visualidad y Medios, Universidad de Chile, Santiago, Chile</p>
+        <p><span class="aff-num">4</span>Estudiante de Diseño en Visualidad y Medios, Universidad de Chile, Santiago, Chile</p>
+
+      </div>
+    </div>
+
+    <!-- META -->
+    <div class="meta-row">
+      <div class="meta-item">Recibido&nbsp;<span>10 de marzo, 2026</span></div>
+      <div class="meta-item">Aceptado&nbsp;<span>31 de marzo, 2026</span></div>
+      <div class="meta-item">Publicado&nbsp;<span>7 de abril, 2026</span></div>
+      <div class="meta-item">Acceso&nbsp;<span>Abierto</span></div>
+    </div>
+
+  </section>
+
+  <!-- ── RESUMEN ─────────────────────────────────────────────── -->
+  <section>
+    <p class="section-label">Resumen</p>
+    <div class="abstract-box">
+      <p><strong>Introducción:</strong> La visualización de datos contemporánea ha adoptado una estética minimalista que, bajo una apariencia de objetividad, suele omitir la complejidad estadística. Este fenómeno facilita el <em>"error sin dolo"</em>, donde la información se distorsiona por decisiones de diseño que explotan (<em>sesgos cognitivos</em>) sin una intención maliciosa de engaño.</p>
+      <p style="margin-top:0.9rem;"><strong>Objetivo:</strong> Analizar críticamente cómo las convenciones estéticas actuales <em>minimalismo</em>, escalas truncadas y metáforas geográficas— generan interpretaciones erróneas. El estudio busca desmitificar la "limpieza" visual como sinónimo de precisión, utilizando el marco teórico de Alberto Cairo y Edward Tufte para identificar fallos en la comunicación.</p>
+      <p style="margin-top:0.9rem;"><strong>Métodos:</strong> Se empleó una metodología de análisis cualitativo comparativo, cruzando la bibliografía especializada con patrones de diseño actuales. Se evaluaron cinco ejes de distorsión: la autoridad del <em>minimalismo</em>, el truncamiento de escalas, errores de coropletas, ilusiones de correlación por proximidad y el juicio de valor cromático. </p>
+      <p style="margin-top:0.9rem;"><strong>Resultados:</strong> Se identificó que el diseño centrado en el impacto visual <em>(eye candy)</em> desplaza el rigor de los datos. El espectador suele confundir la pulcritud con la veracidad, aceptando conclusiones sesgadas debido a la eliminación de indicadores de incertidumbre y márgenes de error en favor de la estética.</p>
+      <p style="margin-top:0.9rem;"><strong>Conclusión:</strong> La transparencia en la incertidumbre es un imperativo ético. Se concluye que el diseño debe servir a la comprensión y no a la decoración. La <em>Alfabetización visual</em> es la herramienta crítica necesaria para romper la paradoja donde un gráfico técnicamente veraz comunica una realidad falsa.
+</p>
+    </div>
+
+    <div style="margin-top:1.2rem;">
+      <p class="authors-label">Palabras clave</p>
+      <div class="keywords">
+        <span class="keyword">Sesgo cognitivo</span>
+        <span class="keyword">Desinformación</span>
+        <span class="keyword">Minimalismo</span>
+        <span class="keyword">Diseño de información</span>
+        <span class="keyword">Afabetización visual</span>
+        <span class="keyword">Error sin dolo</span>
+        <span class="keyword">Distorsión de datos</span>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <p class="section-label">1 · Introducción</p>
+    <div class="body-text">
+      <p>En el ecosistema informativo actual, la visualización de datos se ha consolidado como un lenguaje de autoridad. Sin embargo, esta autoridad a menudo emana de la <em>"estética de la limpieza"</em> y no necesariamente del rigor estadístico. El diseño contemporáneo, influenciado por el estilo flat y paletas de colores armónicas, ha construido una máscara de certeza que simplifica la realidad hasta desvirtuarla. Este artículo aborda el fenómeno del error sin dolo, una propagación de información engañosa que no nace de la voluntad de manipular, sino de una praxis del diseño que ignora la geometría de los datos.</p>
+      <p>La problemática central reside en que la visualización no es una ventana transparente a la realidad, sino una construcción editorial. Como advierte Alberto Cairo, el espectador no experto tiende a ver un gráfico como una "fotografía" de los hechos, cuando en realidad es un argumento visual que requiere una lectura crítica. Al priorizar que un gráfico sea "bonito" o que "quepa en un feed de Instagram", se sacrifican proporciones matemáticas y contextos esenciales. Este sacrificio estético induce a sesgos cognitivos que llevan al público a inferir causalidades inexistentes o magnitudes desproporcionadas, consolidando una percepción distorsionada del mundo bajo un barniz de modernidad y sofisticación técnica.</p>
+    </div>
+  </section>
+
+  <!-- ── MARCO TEÓRICO ───────────────────────────────────────── -->
+  <section>
+    <p class="section-label">2 · Marco Teórico</p>
+
+    <div class="body-text">
+      <p>El análisis se fundamenta en la "Tríada de la Alfabetización Visual" de Alberto Cairo, que postula que la competencia en datos requiere habilidad técnica, estadística y conocimiento del mundo. El error sin dolo surge cuando el diseño rompe este equilibrio, favoreciendo la forma sobre la función. Edward Tufte complementa esta visión con su crítica al chartjunk, argumentando que cualquier elemento decorativo que no aporte información oscurece la verdad. En el diseño moderno, el minimalismo extremo paradójicamente se convierte en un tipo de chartjunk por omisión: al eliminar el "ruido" de los márgenes de error, se elimina la honestidad de la incertidumbre.</p>
+      <p>La psicología de la Gestalt también juega un rol crítico. La disposición de la información en tarjetas o módulos (dashboards) explota la ley de proximidad, induciendo al cerebro a crear correlaciones ilusorias. Isabel Meirelles profundiza en esto al analizar las metáforas visuales como los mapas de coropletas, donde el ojo humano confunde la extensión geográfica con la importancia numérica, ignorando la densidad poblacional. Finalmente, el modelo DIKW (Dato-Información-Conocimiento-Sabiduría) se ve interrumpido en la fase de transición de dato a información: si la codificación visual (el color o la escala) es tendenciosa, el conocimiento resultante será inherentemente falso, independientemente de la pureza de la fuente original.</p>
+      </div>
+  </section>
+
+  <!-- ── MÉTODOS ────────────────────────────────── -->
+  <section>
+    <p class="section-label">3 · Métodos</p>
+<p> Se aplicó un método de análisis cualitativo basado en el cruce crítico de fuentes bibliográficas y la evaluación de convenciones de diseño contemporáneo. El estudio se estructuró en tres niveles analíticos: </p>
+
+    <h2>1. Deconstrucción de la "Autoridad Estética":</h2> 
+    <div class="body-text">
+      <p>Se analizó cómo el uso de tipografías sans-serif y espacios en blanco genera un sesgo de confianza en el espectador, reduciendo su guardia crítica frente a la información presentada.</p>
+        
+
+    <h2>2. Análisis de la Distorsión Geométrica: </h2>
+    <div class="body-text">
+      <p>Se evaluaron técnicas comunes de diagramación, como el truncamiento del eje Y y la manipulación de escalas en dispositivos móviles, contrastándolas con el "factor de engaño" de Tufte.</p>
+   
+	
+	<h2>3. Evaluación de la Carga Semántica del Color: </h2>
+	<div class="body-text">
+	<p>Se investigó cómo la asociación cultural de colores (rojo para peligro, verde para seguridad) impone una narrativa emocional que precede al análisis racional de las cifras.</p>
+	</div>
+
+
+  <!-- ── RESULTADOS ──────────────────────────────────────────── -->
+  <section>
+    <p class="section-label">4 · Resultados</p>
+
+    <div class="body-text">
+      <p>Los resultados demuestran que el diseño contemporáneo ha creado una paradoja: mientras más "limpio" es un gráfico, más propenso es a la interpretación errónea si no incluye visualizaciones de incertidumbre. Se identificó que el punto de mayor vulnerabilidad ocurre en la intersección de la <strong>Estética, el Rigor y la Cognición.</strong></p>
+      <h2>Diagrama de Venn: La Génesis del error sin dolo</h2>
+	  <p>El siguiente diagrama ilustra cómo la ruptura del equilibrio entre los tres pilares fundamentales de la visualización conduce a la distorsión de la verdad:</p>
+	  
+<figure>
+  <img src="diagrama.horizontal.webp" alt="Diagrama de Venn sobre estética, rigor y cognición en visualización de datos" style="width:100%; height:auto; border:1px solid var(--rule);" />
+  <figcaption>
+    <strong>Figura 1.</strong> Intersección entre estética, rigor y cognición como origen del “error sin dolo”.
+  </figcaption>
+</figure>
+
+ <head>
+<meta charset="UTF-8">
+<title>Lista de Círculos</title>
+<style>
+ul {
+margin-bottom: 40px; /* espacio debajo del punteo */
+}
+
+.separador {
+margin-top: 20px; /* espacio adicional antes del párrafo */
+}
+</style>
+</head>
+<body>
+
+<ul>
+<li>Círculo A (Rigor de los Datos): Precisión técnica, márgenes de error, fuentes confiables.</li>
+<li>Círculo B (Estética del Diseño): Convenciones minimalistas, paletas de colores, jerarquía visual.</li>
+<li>Círculo C (Cognición del Espectador): Sesgos previos, nivel de alfabetización visual, prejuicios.</li>
+</ul>
+
+<div class="separador">
+<p>
+El Punto Crítico: En el centro del diagrama, donde los tres círculos se cruzan, el equilibrio suele romperse por un exceso del conjunto B (Estética) sobre el A (Rigor). En esta zona, la información es técnicamente veraz, el diseño es profesional y el espectador está atento, pero la convención estética (ej. un eje truncado o un mapa de coropletas mal empleado) provoca que el espectador (C) extraiga una conclusión diametralmente opuesta a los datos reales (A). El diseño aquí no es un facilitador, sino un obstáculo cognitivo.
+</p>
+</div>
+
+</body>
+
+
+
+  <!-- ── CONCLUSIONES ────────────────────────────────────────── -->
+  <section>
+    <p class="section-label">6 · Conclusiones</p>
+    <div class="body-text">
+      <p>La visualización de datos debe dejar de ser considerada una herramienta de decoración para ser entendida como un ejercicio de responsabilidad intelectual. El análisis del error sin dolo revela que la estética minimalista, lejos de ser neutra, es una elección editorial que puede inducir a la falsa certeza. Como afirma la "Paradoja de Cairo", un gráfico no revela la verdad; simplemente nos ayuda a encontrarla, siempre y cuando el espectador esté dispuesto a leerlo y no solo a mirarlo.</p>
+      <p>Para mitigar estos errores, es fundamental que el diseño de información evolucione hacia una mayor transparencia visual. Esto implica la inclusión explícita de la incertidumbre (mediante intervalos de confianza o bordes difusos) y el respeto estricto a las proporciones geométricas, incluso si esto compromete la "belleza" minimalista de la pieza. La alfabetización visual no debe ser sólo una exigencia para el consumidor, sino un estándar ético para el creador. En última instancia, la calidad de una visualización no se mide por su capacidad de impresionar al ojo, sino por su capacidad de iluminar la mente sin sacrificar la complejidad de la verdad.</p>
+    </div>
+  </section>
+
+  <!-- ── REFERENCIAS ─────────────────────────────────────────── -->
+  <section>
+    <p class="section-label">Referencias</p>
+    <ul class="references-list">
+      <li>Cairo, A. (2020). <em>How charts lie: Getting smarter about visual information</em>. W. W. Norton & Company.</li>
+      <li>Cairo, A. (2023). <em>The art of insight: How great visualization designers think.</em> Wiley.</li>
+      <li>Meirelles, I. (2014). <em>La información en el diseño: Introducción a las historias, las teorías y las mejores prácticas para la visualización eficaz de información.</em>, <em> Parramón.</em></li>
+      <li>Schwabish, J. A. (2021). <em> Better data visualizations: A guide for scholars, researchers, and designers.</em>. Columbia University Press.</li>
+      <li>Tufte, E. R. (2020). <em>Seeing with fresh eyes: Meaning, space, data, truth.</em>. Graphics Press.</li>
+      
+    </ul>
+  </section>
+
+ 
+
+    <div class="disclosure" style="margin-top:1.5rem;">
+      <p><strong>Conflicto de intereses</strong> Los autores declaran no tener conflictos de interés, solo una profunda estima por el equipo docente; no obstante, son plenamente conscientes de que dicha estima no constituye una variable computable en la rúbrica de evaluación, la cual se rige por criterios objetivos.</p>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>TÍTULO DE SU ARTÍCULO © 2026 de González et al. es publicado bajo licencia <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></p>
+  </div>
+</footer>
+
+</body>
+</html>
